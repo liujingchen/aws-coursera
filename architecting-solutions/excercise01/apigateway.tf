@@ -35,6 +35,10 @@ resource "aws_api_gateway_integration" "poc_order" {
 Action=SendMessage&MessageBody=$input.body
     EOF
   }
+
+  depends_on = [
+    aws_sqs_queue.poc_queue
+  ]
 }
 
 resource "aws_api_gateway_method_response" "response_200" {
@@ -44,9 +48,14 @@ resource "aws_api_gateway_method_response" "response_200" {
   status_code = "200"
 }
 
-resource "aws_api_gateway_integration_response" "MyDemoIntegrationResponse" {
+resource "aws_api_gateway_integration_response" "poc_order" {
   rest_api_id = aws_api_gateway_rest_api.poc_api.id
   resource_id = aws_api_gateway_resource.order.id
   http_method = aws_api_gateway_method.order_post.http_method
   status_code = aws_api_gateway_method_response.response_200.status_code
+
+  # Need this otherwise will fail
+  depends_on = [
+    aws_api_gateway_integration.poc_order
+  ]
 }

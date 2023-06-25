@@ -51,4 +51,9 @@ resource "aws_sqs_queue" "poc_queue" {
   ]
 }
     EOT
+
+  # Need this otherwise will fail
+  depends_on = [
+    aws_lambda_function.lambda_function_1
+  ]
 }
