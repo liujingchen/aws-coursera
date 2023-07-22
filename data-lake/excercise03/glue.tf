@@ -64,7 +64,7 @@ resource "aws_s3_object" "nytaxiparquet" {
   bucket     = aws_cloudformation_stack.week3.outputs.S3Bucket
   source     = "${path.module}/${local_file.nytaxiparquet.filename}"
   etag       = filemd5("${path.module}/${local_file.nytaxiparquet.filename}")
-  depends_on = [aws_cloudformation_stack.week3]
+  depends_on = [aws_cloudformation_stack.week3, local_file.nytaxiparquet]
 }
 
 resource "aws_cloudwatch_log_group" "nytaxiparquet" {
