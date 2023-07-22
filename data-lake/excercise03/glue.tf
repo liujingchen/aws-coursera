@@ -63,7 +63,6 @@ resource "aws_s3_object" "nytaxiparquet" {
   key        = "nytaxiparquet.py"
   bucket     = aws_cloudformation_stack.week3.outputs.S3Bucket
   source     = "${path.module}/${local_file.nytaxiparquet.filename}"
-  etag       = filemd5("${path.module}/${local_file.nytaxiparquet.filename}")
   depends_on = [aws_cloudformation_stack.week3, local_file.nytaxiparquet]
 }
 
